@@ -1,16 +1,19 @@
-#Install-Module AzureAD
-#Install-Module Azure.AzAccount
-#$creds = Get-Credential
-#Login-AzAccount -Credential $creds
+#Sample on how to creeate an AAD App registration for a SPA Application, in this case for our Postman Client
+# Install-Module AzureAD
+# Install-Module Azure.AzAccount
+
+$tenatId = "<your AAD Tenant ID"
+$userName = "<your username@domain.com"
+$userPassword = "<your password>"
+
+# AAD PowerShell Module Login
+$creds = Get-Credential
+Login-AzAccount -Credential $creds
+Connect-AzureAD -TenantId $tenatId
+
 #Mixing Azure AD Module and Azure CLI(to get access token)
-
-$tenatId
-$userName 
-$userPassword 
-
-Connect-AzureAD -TenantId "<your tenant id>"
 #Login with Azure CLI
-az login -u <username@domain.com> -p <password>
+az login -u $userName -p $userPassword
 
 #Create Client App Registration - in this case it's for a Postman Client
 $appPostmanName = "apiPostMan2"
@@ -39,5 +42,5 @@ $body = @{
 
 $graphURI = "https://graph.microsoft.com/v1.0/applications/$myApp.ObjectId"
 Invoke-RestMethod -Method Patch -Uri $graphURI -Headers $header -Body $body
-#Invoke-RestMethod -Method Patch -Uri "https://graph.microsoft.com/v1.0/applications/$objectId" -Headers $header -Body $body
+
  
